@@ -48,7 +48,7 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div className={`app room-${rooms[currentRoom].id}`}>
       {/* Navbar */}
       <nav className="navbar">
         <div className="nav-content">
@@ -92,88 +92,88 @@ function App() {
             </div>
           </div>
 
-          {/* Center Wall - Room Visualization */}
-          <div className="wall center-wall">
-            <div className="room-visualization">
-              <div className={`room-scene ${rooms[currentRoom].id}`}>
-                {/* Recording Studio */}
-                <div className="room-content studio-room">
-                  <div className="studio-equipment">
-                    <div className="mic-stand"></div>
-                    <div className="speaker left"></div>
-                    <div className="speaker right"></div>
-                    <div className="mixer"></div>
-                    <div className="keyboard"></div>
-                    <div className="sound-waves">
-                      <div className="wave"></div>
-                      <div className="wave"></div>
-                      <div className="wave"></div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Concert Stage */}
-                <div className="room-content stage-room">
-                  <div className="stage-setup">
-                    <div className="stage-floor"></div>
-                    <div className="guitar-stand"></div>
-                    <div className="drum-kit">
-                      <div className="drum"></div>
-                      <div className="drum"></div>
-                      <div className="drum"></div>
-                    </div>
-                    <div className="spotlight"></div>
-                    <div className="crowd-silhouette"></div>
-                  </div>
-                </div>
-
-                {/* Art Studio */}
-                <div className="room-content painting-room">
-                  <div className="art-setup">
-                    <div className="easel">
-                      <div className="canvas"></div>
-                    </div>
-                    <div className="paint-palette"></div>
-                    <div className="paint-brush"></div>
-                    <div className="paint-splatter"></div>
-                    <div className="paint-splatter"></div>
-                    <div className="paint-splatter"></div>
-                  </div>
-                </div>
-
-                {/* Home Studio */}
-                <div className="room-content bedroom-room">
-                  <div className="bedroom-setup">
-                    <div className="bed"></div>
-                    <div className="desk">
-                      <div className="laptop"></div>
-                      <div className="headphones"></div>
-                    </div>
-                    <div className="window">
-                      <div className="window-light"></div>
-                    </div>
-                    <div className="plant"></div>
-                  </div>
-                </div>
-
-                {/* Rooftop */}
-                <div className="room-content rooftop-room">
-                  <div className="rooftop-setup">
-                    <div className="city-skyline"></div>
-                    <div className="city-building"></div>
-                    <div className="city-building"></div>
-                    <div className="city-building"></div>
-                    <div className="sunset-gradient"></div>
-                    <div className="rooftop-floor"></div>
-                    <div className="vinyl-player"></div>
+          {/* Center - Immersive Room View */}
+          <div className="center-room-view">
+            <div className={`room-scene ${rooms[currentRoom].id}`}>
+              {/* Recording Studio */}
+              <div className="room-content studio-room">
+                <div className="studio-equipment">
+                  <div className="mic-stand"></div>
+                  <div className="speaker left"></div>
+                  <div className="speaker right"></div>
+                  <div className="mixer"></div>
+                  <div className="keyboard"></div>
+                  <div className="sound-waves">
+                    <div className="wave"></div>
+                    <div className="wave"></div>
+                    <div className="wave"></div>
                   </div>
                 </div>
               </div>
-              <div className="room-info">
-                <div className="room-icon">{rooms[currentRoom].icon}</div>
-                <h2 className="room-name">{rooms[currentRoom].name}</h2>
-                <p className="room-description">{rooms[currentRoom].description}</p>
+
+              {/* Concert Stage */}
+              <div className="room-content stage-room">
+                <div className="stage-setup">
+                  <div className="stage-floor"></div>
+                  <div className="guitar-stand"></div>
+                  <div className="drum-kit">
+                    <div className="drum"></div>
+                    <div className="drum"></div>
+                    <div className="drum"></div>
+                  </div>
+                  <div className="spotlight"></div>
+                  <div className="crowd-silhouette"></div>
+                </div>
               </div>
+
+              {/* Art Studio */}
+              <div className="room-content painting-room">
+                <div className="art-setup">
+                  <div className="easel">
+                    <div className="canvas"></div>
+                  </div>
+                  <div className="paint-palette"></div>
+                  <div className="paint-brush"></div>
+                  <div className="paint-splatter"></div>
+                  <div className="paint-splatter"></div>
+                  <div className="paint-splatter"></div>
+                </div>
+              </div>
+
+              {/* Home Studio */}
+              <div className="room-content bedroom-room">
+                <div className="bedroom-setup">
+                  <div className="bed"></div>
+                  <div className="desk">
+                    <div className="laptop"></div>
+                    <div className="headphones"></div>
+                  </div>
+                  <div className="window">
+                    <div className="window-light"></div>
+                  </div>
+                  <div className="plant"></div>
+                </div>
+              </div>
+
+              {/* Rooftop */}
+              <div className="room-content rooftop-room">
+                <div className="rooftop-setup">
+                  <div className="city-skyline"></div>
+                  <div className="city-building"></div>
+                  <div className="city-building"></div>
+                  <div className="city-building"></div>
+                  <div className="sunset-gradient"></div>
+                  <div className="rooftop-floor"></div>
+                  <div className="vinyl-player"></div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Floating Room Info */}
+            <div className="room-info">
+              <div className="room-icon">{rooms[currentRoom].icon}</div>
+              <h2 className="room-name">{rooms[currentRoom].name}</h2>
+              <p className="room-description">{rooms[currentRoom].description}</p>
             </div>
           </div>
 
