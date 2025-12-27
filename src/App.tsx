@@ -125,7 +125,10 @@ function App() {
   }
 
   return (
-    <div className={`app room-${rooms[currentRoom].id}`}>
+    <div 
+      className="app" 
+      style={{ '--room-color': rooms[currentRoom].color } as React.CSSProperties}
+    >
       {/* Navbar */}
       <nav className="navbar">
         <div className="nav-content">
@@ -142,11 +145,7 @@ function App() {
 
       {/* 3D Room Container */}
       <div className="room-container">
-        <div 
-          className="room-3d" 
-          data-room={rooms[currentRoom].id}
-          style={{ '--current-room-color': rooms[currentRoom].color } as React.CSSProperties}
-        >
+        <div className="room-3d">
           {/* Left Wall - Links */}
           <div className="wall left-wall">
             <div className="wall-content">
@@ -173,42 +172,30 @@ function App() {
             </div>
           </div>
 
-          {/* Center - Immersive Room View */}
-          <div 
-            className="center-room-view"
-            style={{ '--current-room-color': rooms[currentRoom].color } as React.CSSProperties}
-          >
-            <div className={`room-scene ${rooms[currentRoom].id}`}>
-              {/* The Background Image (The "Window") */}
-              <div 
-                className="room-image-bg" 
-                style={{ backgroundImage: `url(${rooms[currentRoom].image})` }}
-              >
-                <div className="vignette-overlay"></div>
-              </div>
-
-              {/* Floating Content Layer (Only critical info) */}
-              <div className="room-overlay-content">
-                <div className="room-badge">
-                  <span className="badge-icon">{rooms[currentRoom].icon}</span>
-                  <div className="badge-text">
-                    <h2>{rooms[currentRoom].name}</h2>
-                    <p>{rooms[currentRoom].description}</p>
-                  </div>
+          {/* Center - The "Window" into their world */}
+          <div className="center-portal">
+            <div 
+              key={rooms[currentRoom].id} // Key forces a re-render for the zoom animation
+              className="portal-image"
+              style={{ backgroundImage: `url(${rooms[currentRoom].image})` }}
+            >
+              <div className="portal-overlay">
+                <div className="room-info-card">
+                  <span className="room-icon">{rooms[currentRoom].icon}</span>
+                  <h2>{rooms[currentRoom].name}</h2>
+                  <p>{rooms[currentRoom].description}</p>
+                  <button 
+                    className="enter-btn"
+                    style={{ '--btn-color': rooms[currentRoom].color } as React.CSSProperties}
+                  >
+                    View Portfolio
+                  </button>
                 </div>
-                
-                {/* A single, large, high-intent CTA */}
-                <button 
-                  className="primary-action-btn" 
-                  style={{ '--btn-color': rooms[currentRoom].color } as React.CSSProperties}
-                >
-                  Enter Workspace
-                </button>
               </div>
             </div>
           </div>
 
-          {/* Right Wall - Additional Content */}
+          {/* Right Wall - Secondary Content */}
           <div className="wall right-wall">
             <div className="wall-content">
               <h3 className="wall-title">Gallery</h3>
