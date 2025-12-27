@@ -14,6 +14,8 @@ interface Room {
   name: string
   icon: string
   description: string
+  image: string
+  color: string
 }
 
 const sampleLinks: Link[] = [
@@ -28,16 +30,86 @@ const sampleLinks: Link[] = [
 ]
 
 const rooms: Room[] = [
-  { id: 'studio', name: 'The Studio', icon: '🎙️', description: 'Producer / Beatmaker' },
-  { id: 'stage', name: 'The Stage', icon: '🎸', description: 'Independent Artist' },
-  { id: 'booth', name: 'The Booth', icon: '🎧', description: 'DJ / Party Curator' },
-  { id: 'production', name: 'Production Office', icon: '📋', description: 'Event Producer' },
-  { id: 'clubroom', name: 'The Clubroom', icon: '👥', description: 'Student Org / Campus' },
-  { id: 'gallery', name: 'The Gallery', icon: '🎨', description: 'Visual Artist / Designer' },
-  { id: 'editsuite', name: 'The Edit Suite', icon: '📷', description: 'Photographer / Videographer' },
-  { id: 'listening', name: 'Listening Room', icon: '🎙️', description: 'Podcaster / Media Host' },
-  { id: 'shopfront', name: 'The Shopfront', icon: '🛍️', description: 'Small Creative Business' },
-  { id: 'community', name: 'Community Room', icon: '🤝', description: 'Nonprofit / Initiative' },
+  { 
+    id: 'studio', 
+    name: 'The Studio', 
+    icon: '🎙️', 
+    description: 'Producer / Beatmaker',
+    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=1200',
+    color: '#3b82f6' // Neon Blue
+  },
+  { 
+    id: 'stage', 
+    name: 'The Stage', 
+    icon: '🎸', 
+    description: 'Independent Artist',
+    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=1200',
+    color: '#ef4444' // Stage Red
+  },
+  { 
+    id: 'booth', 
+    name: 'The Booth', 
+    icon: '🎧', 
+    description: 'DJ / Party Curator',
+    image: 'https://images.unsplash.com/photo-1571332655065-38760451acb0?auto=format&fit=crop&q=80&w=1200',
+    color: '#8b5cf6' // Cyber Purple
+  },
+  { 
+    id: 'production', 
+    name: 'Production Office', 
+    icon: '📋', 
+    description: 'Event Producer',
+    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200',
+    color: '#06b6d4' // Cyan
+  },
+  { 
+    id: 'clubroom', 
+    name: 'The Clubroom', 
+    icon: '👥', 
+    description: 'Student Org / Campus',
+    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=1200',
+    color: '#10b981' // Emerald
+  },
+  { 
+    id: 'gallery', 
+    name: 'The Gallery', 
+    icon: '🎨', 
+    description: 'Visual Artist / Designer',
+    image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=1200',
+    color: '#f59e0b' // Golden
+  },
+  { 
+    id: 'editsuite', 
+    name: 'The Edit Suite', 
+    icon: '📷', 
+    description: 'Photographer / Videographer',
+    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200',
+    color: '#8b5cf6' // Purple
+  },
+  { 
+    id: 'listening', 
+    name: 'Listening Room', 
+    icon: '🎙️', 
+    description: 'Podcaster / Media Host',
+    image: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&q=80&w=1200',
+    color: '#ec4899' // Pink
+  },
+  { 
+    id: 'shopfront', 
+    name: 'The Shopfront', 
+    icon: '🛍️', 
+    description: 'Small Creative Business',
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1200',
+    color: '#f97316' // Orange
+  },
+  { 
+    id: 'community', 
+    name: 'Community Room', 
+    icon: '🤝', 
+    description: 'Nonprofit / Initiative',
+    image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80&w=1200',
+    color: '#14b8a6' // Teal
+  },
 ]
 
 function App() {
@@ -70,7 +142,11 @@ function App() {
 
       {/* 3D Room Container */}
       <div className="room-container">
-        <div className="room-3d" data-room={rooms[currentRoom].id}>
+        <div 
+          className="room-3d" 
+          data-room={rooms[currentRoom].id}
+          style={{ '--current-room-color': rooms[currentRoom].color } as React.CSSProperties}
+        >
           {/* Left Wall - Links */}
           <div className="wall left-wall">
             <div className="wall-content">
@@ -98,288 +174,36 @@ function App() {
           </div>
 
           {/* Center - Immersive Room View */}
-          <div className="center-room-view">
+          <div 
+            className="center-room-view"
+            style={{ '--current-room-color': rooms[currentRoom].color } as React.CSSProperties}
+          >
             <div className={`room-scene ${rooms[currentRoom].id}`}>
-              {/* T-01: The Studio - Producer/Beatmaker */}
-              <div className="room-content studio-room">
-                <div className="desk-setup">
-                  <div className="desk-surface"></div>
-                  <div className="desk-items">
-                    <div className="audio-player-module">
-                      <div className="player-screen">
-                        <div className="track-artwork"></div>
-                        <div className="track-info">
-                          <div className="track-title">Top Beats</div>
-                          <div className="track-controls">
-                            <div className="play-button"></div>
-                            <div className="waveform">
-                              <div className="wave-bar"></div>
-                              <div className="wave-bar"></div>
-                              <div className="wave-bar"></div>
-                              <div className="wave-bar"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="booking-widget-module">
-                      <div className="calendar-icon"></div>
-                      <div className="booking-text">Book Session</div>
-                    </div>
-                    <div className="profile-card-module">
-                      <div className="profile-avatar"></div>
-                      <div className="profile-name">Producer Name</div>
-                    </div>
-                    <div className="hero-cta">License beats. Book sessions. Build sound.</div>
-                  </div>
-                </div>
+              {/* The Background Image (The "Window") */}
+              <div 
+                className="room-image-bg" 
+                style={{ backgroundImage: `url(${rooms[currentRoom].image})` }}
+              >
+                <div className="vignette-overlay"></div>
               </div>
 
-              {/* T-02: The Stage - Independent Artist */}
-              <div className="room-content stage-room">
-                <div className="desk-setup">
-                  <div className="desk-surface"></div>
-                  <div className="desk-items">
-                    <div className="smart-link-hub">
-                      <div className="link-platforms">
-                        <div className="platform-card spotify"></div>
-                        <div className="platform-card apple"></div>
-                        <div className="platform-card youtube"></div>
-                      </div>
-                      <div className="primary-release">New Single</div>
-                    </div>
-                    <div className="profile-card-module">
-                      <div className="profile-avatar"></div>
-                      <div className="profile-name">Artist Name</div>
-                    </div>
-                    <div className="hero-cta">Start here: the newest release.</div>
+              {/* Floating Content Layer (Only critical info) */}
+              <div className="room-overlay-content">
+                <div className="room-badge">
+                  <span className="badge-icon">{rooms[currentRoom].icon}</span>
+                  <div className="badge-text">
+                    <h2>{rooms[currentRoom].name}</h2>
+                    <p>{rooms[currentRoom].description}</p>
                   </div>
                 </div>
-              </div>
-
-              {/* T-03: The Booth - DJ/Party Curator */}
-              <div className="room-content booth-room">
-                <div className="desk-setup">
-                  <div className="desk-surface"></div>
-                  <div className="desk-items">
-                    <div className="dj-deck">
-                      <div className="turntable left"></div>
-                      <div className="turntable right"></div>
-                      <div className="mixer-center"></div>
-                    </div>
-                    <div className="booking-widget-module large">
-                      <div className="calendar-icon"></div>
-                      <div className="booking-text">Book Me</div>
-                    </div>
-                    <div className="smart-link-hub compact">
-                      <div className="link-platforms">
-                        <div className="platform-card soundcloud"></div>
-                        <div className="platform-card mixcloud"></div>
-                      </div>
-                    </div>
-                    <div className="profile-card-module">
-                      <div className="profile-avatar"></div>
-                      <div className="profile-name">DJ Name</div>
-                    </div>
-                    <div className="hero-cta">Book me. Pull up. Let's make it move.</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* T-04: Production Office - Event Producer */}
-              <div className="room-content production-room">
-                <div className="desk-setup">
-                  <div className="desk-surface"></div>
-                  <div className="desk-items">
-                    <div className="case-study-tiles">
-                      <div className="case-tile"></div>
-                      <div className="case-tile"></div>
-                      <div className="case-tile"></div>
-                    </div>
-                    <div className="inquiry-form-module">
-                      <div className="form-header">Request Quote</div>
-                      <div className="form-fields">
-                        <div className="form-field"></div>
-                        <div className="form-field"></div>
-                      </div>
-                    </div>
-                    <div className="profile-card-module">
-                      <div className="profile-avatar"></div>
-                      <div className="profile-name">Producer Name</div>
-                    </div>
-                    <div className="hero-cta">Production that feels inevitable.</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* T-05: The Clubroom - Student Org */}
-              <div className="room-content clubroom-room">
-                <div className="desk-setup">
-                  <div className="desk-surface"></div>
-                  <div className="desk-items">
-                    <div className="rsvp-form-module">
-                      <div className="event-card">
-                        <div className="event-date">Next Meeting</div>
-                        <div className="rsvp-button">RSVP</div>
-                      </div>
-                    </div>
-                    <div className="stats-counters-module">
-                      <div className="stat-counter">
-                        <div className="stat-number">150</div>
-                        <div className="stat-label">Members</div>
-                      </div>
-                      <div className="stat-counter">
-                        <div className="stat-number">12</div>
-                        <div className="stat-label">Events</div>
-                      </div>
-                    </div>
-                    <div className="profile-card-module org">
-                      <div className="profile-avatar"></div>
-                      <div className="profile-name">Org Name</div>
-                    </div>
-                    <div className="hero-cta">Join the team. Build the scene.</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* T-06: The Gallery - Visual Artist */}
-              <div className="room-content gallery-room">
-                <div className="desk-setup">
-                  <div className="desk-surface"></div>
-                  <div className="desk-items">
-                    <div className="gallery-grid-module">
-                      <div className="gallery-item-small"></div>
-                      <div className="gallery-item-small"></div>
-                      <div className="gallery-item-small"></div>
-                      <div className="gallery-item-small"></div>
-                    </div>
-                    <div className="inquiry-form-module">
-                      <div className="form-header">Commission</div>
-                      <div className="form-fields">
-                        <div className="form-field"></div>
-                      </div>
-                    </div>
-                    <div className="profile-card-module">
-                      <div className="profile-avatar"></div>
-                      <div className="profile-name">Artist Name</div>
-                    </div>
-                    <div className="hero-cta">Work you can feel. Commission-ready.</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* T-07: The Edit Suite - Photographer */}
-              <div className="room-content editsuite-room">
-                <div className="desk-setup">
-                  <div className="desk-surface"></div>
-                  <div className="desk-items">
-                    <div className="video-reel-module">
-                      <div className="video-screen">
-                        <div className="play-overlay"></div>
-                        <div className="video-title">Portfolio Reel</div>
-                      </div>
-                    </div>
-                    <div className="booking-widget-module">
-                      <div className="calendar-icon"></div>
-                      <div className="booking-text">Book Session</div>
-                    </div>
-                    <div className="profile-card-module">
-                      <div className="profile-avatar"></div>
-                      <div className="profile-name">Photographer</div>
-                    </div>
-                    <div className="hero-cta">Fast turnaround. Clean visuals. Real moments.</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* T-08: Listening Room - Podcaster */}
-              <div className="room-content listening-room">
-                <div className="desk-setup">
-                  <div className="desk-surface"></div>
-                  <div className="desk-items">
-                    <div className="smart-link-hub">
-                      <div className="link-platforms">
-                        <div className="platform-card spotify"></div>
-                        <div className="platform-card apple"></div>
-                        <div className="platform-card youtube"></div>
-                      </div>
-                      <div className="primary-release">Subscribe</div>
-                    </div>
-                    <div className="audio-player-module podcast">
-                      <div className="player-screen">
-                        <div className="track-artwork"></div>
-                        <div className="track-info">
-                          <div className="track-title">Featured Episode</div>
-                          <div className="track-controls">
-                            <div className="play-button"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="profile-card-module">
-                      <div className="profile-avatar"></div>
-                      <div className="profile-name">Host Name</div>
-                    </div>
-                    <div className="hero-cta">Start with this episode.</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* T-09: The Shopfront - Small Business */}
-              <div className="room-content shopfront-room">
-                <div className="desk-setup">
-                  <div className="desk-surface"></div>
-                  <div className="desk-items">
-                    <div className="shop-feature-module">
-                      <div className="product-grid">
-                        <div className="product-card"></div>
-                        <div className="product-card"></div>
-                        <div className="product-card"></div>
-                      </div>
-                    </div>
-                    <div className="booking-widget-module">
-                      <div className="calendar-icon"></div>
-                      <div className="booking-text">Services</div>
-                    </div>
-                    <div className="profile-card-module">
-                      <div className="profile-avatar"></div>
-                      <div className="profile-name">Business Name</div>
-                    </div>
-                    <div className="hero-cta">Buy once. Come back forever.</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* T-10: Community Room - Nonprofit */}
-              <div className="room-content community-room">
-                <div className="desk-setup">
-                  <div className="desk-surface"></div>
-                  <div className="desk-items">
-                    <div className="stats-counters-module large">
-                      <div className="stat-counter">
-                        <div className="stat-number">5K+</div>
-                        <div className="stat-label">Lives Impacted</div>
-                      </div>
-                      <div className="stat-counter">
-                        <div className="stat-number">200+</div>
-                        <div className="stat-label">Volunteers</div>
-                      </div>
-                      <div className="stat-counter">
-                        <div className="stat-number">50+</div>
-                        <div className="stat-label">Programs</div>
-                      </div>
-                    </div>
-                    <div className="donation-module">
-                      <div className="donate-button">Donate</div>
-                      <div className="volunteer-button">Volunteer</div>
-                    </div>
-                    <div className="profile-card-module">
-                      <div className="profile-avatar"></div>
-                      <div className="profile-name">Organization</div>
-                    </div>
-                    <div className="hero-cta">Help fund the work. Join the mission.</div>
-                  </div>
-                </div>
+                
+                {/* A single, large, high-intent CTA */}
+                <button 
+                  className="primary-action-btn" 
+                  style={{ '--btn-color': rooms[currentRoom].color } as React.CSSProperties}
+                >
+                  Enter Workspace
+                </button>
               </div>
             </div>
           </div>

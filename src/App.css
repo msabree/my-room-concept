@@ -132,6 +132,7 @@
   min-height: calc(100vh - 80px);
   position: relative;
   overflow: hidden;
+  background: #0a0a0a;
 }
 
 .room-3d {
@@ -147,8 +148,6 @@
 .wall {
   position: absolute;
   height: 100%;
-  background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(15, 15, 25, 0.95));
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   overflow: hidden;
@@ -190,7 +189,30 @@
   left: 0;
   transform: rotateY(25deg) translateZ(-150px);
   transform-origin: left center;
-  z-index: 10;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom, 
+    rgba(26, 26, 26, 0.95),
+    rgba(26, 26, 26, 0.98)
+  );
+  backdrop-filter: blur(10px);
+  transition: all 0.8s ease;
+  position: absolute;
+  height: 100%;
+}
+
+.left-wall::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--current-room-color)
+  );
+  opacity: 0.08;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
 }
 
 .links-grid {
@@ -295,9 +317,29 @@
   right: 350px;
   top: 0;
   bottom: 0;
-  transform: translateZ(100px);
-  z-index: 1;
+  transform: translateZ(0); /* Keep it at the front */
+  z-index: 2;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 
+    0 0 50px rgba(0, 0, 0, 0.5),
+    0 0 100px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.8s ease;
+  position: relative;
+  min-height: 500px;
+}
+
+.center-room-view::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  background: var(--current-room-color);
+  opacity: 0.2;
+  filter: blur(40px);
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
 }
 
 .room-scene {
@@ -307,30 +349,113 @@
   height: 100%;
 }
 
-.room-content {
-  position: absolute;
-  inset: 0;
+.room-image-bg {
   width: 100%;
   height: 100%;
-  opacity: 0;
-  transform: scale(0.95);
-  transition: all 0.8s ease;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+  filter: saturate(1.1) contrast(1.1);
+  position: absolute;
+  inset: 0;
+  background-color: #1a1a2e; /* Fallback color */
+}
+
+.room-scene:hover .room-image-bg {
+  transform: scale(1.05);
+}
+
+.vignette-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.7) 100%);
   pointer-events: none;
 }
 
-.room-scene.studio .studio-room,
-.room-scene.stage .stage-room,
-.room-scene.booth .booth-room,
-.room-scene.production .production-room,
-.room-scene.clubroom .clubroom-room,
-.room-scene.gallery .gallery-room,
-.room-scene.editsuite .editsuite-room,
-.room-scene.listening .listening-room,
-.room-scene.shopfront .shopfront-room,
-.room-scene.community .community-room {
+.room-overlay-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  z-index: 10;
+  padding: 2rem;
+}
+
+.room-badge {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.badge-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.badge-text h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+  background: linear-gradient(135deg, #ffffff, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.badge-text p {
+  font-size: 0.9rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.primary-action-btn {
+  padding: 1rem 2.5rem;
+  background: var(--btn-color);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.primary-action-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.primary-action-btn:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 30px var(--btn-color);
+}
+
+.primary-action-btn:hover::before {
   opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
+}
+
+.primary-action-btn:active {
+  transform: scale(1.02) translateY(0);
 }
 
 /* Desk Setup Base - All Rooms */
@@ -1564,7 +1689,30 @@
   right: 0;
   transform: rotateY(-25deg) translateZ(-150px);
   transform-origin: right center;
-  z-index: 10;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom, 
+    rgba(26, 26, 26, 0.95),
+    rgba(26, 26, 26, 0.98)
+  );
+  backdrop-filter: blur(10px);
+  transition: all 0.8s ease;
+  position: absolute;
+  height: 100%;
+}
+
+.right-wall::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--current-room-color)
+  );
+  opacity: 0.08;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
 }
 
 .gallery-content {
