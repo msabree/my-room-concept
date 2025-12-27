@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './App.css'
+import SplineRoom from './components/SplineRoom'
+import type { Room } from './types/room'
+import { Application } from '@splinetool/runtime'
 
 interface Link {
   id: string
@@ -7,15 +10,6 @@ interface Link {
   url: string
   icon: string
   color?: string
-}
-
-interface Room {
-  id: string
-  name: string
-  icon: string
-  description: string
-  image: string
-  color: string
 }
 
 const sampleLinks: Link[] = [
@@ -36,7 +30,18 @@ const rooms: Room[] = [
     icon: '🎙️', 
     description: 'Producer / Beatmaker',
     image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=1200',
-    color: '#3b82f6' // Neon Blue
+    // splineScene: 'https://prod.spline.design/YOUR_SCENE_URL.splinecode', // Add your Spline scene URL here
+    color: '#3b82f6', // Neon Blue
+    config: {
+      wallpaper: 'studio-dark',
+      deskType: 'producer',
+      items: {
+        slot1: 'mixer',
+        slot2: 'microphone',
+        wall: 'neon-sign'
+      },
+      lighting: 'neon'
+    }
   },
   { 
     id: 'stage', 
@@ -115,6 +120,7 @@ const rooms: Room[] = [
 function App() {
   const [currentRoom, setCurrentRoom] = useState(0)
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+  const splineRef = useRef<Application | null>(null)
 
   const nextRoom = () => {
     setCurrentRoom((prev) => (prev + 1) % rooms.length)
@@ -122,6 +128,23 @@ function App() {
 
   const prevRoom = () => {
     setCurrentRoom((prev) => (prev - 1 + rooms.length) % rooms.length)
+  }
+
+  const handleSplineLoad = (spline: Application) => {
+    splineRef.current = spline
+    // You can interact with Spline objects here
+    // Example: spline.setVariable('roomState', 'loaded')
+  }
+
+  // Function to trigger Spline state changes
+  const triggerSplineState = (stateName: string) => {
+    if (splineRef.current) {
+      // Example: Change a state in Spline
+      // You can access objects and trigger events:
+      // const obj = splineRef.current.findObjectByName('ObjectName')
+      // obj.emitEvent('mouseDown')
+      console.log('Triggering Spline state:', stateName)
+    }
   }
 
   return (
@@ -174,25 +197,51 @@ function App() {
 
           {/* Center - The "Window" into their world */}
           <div className="center-portal">
-            <div 
-              key={rooms[currentRoom].id} // Key forces a re-render for the zoom animation
-              className="portal-image"
-              style={{ backgroundImage: `url(${rooms[currentRoom].image})` }}
-            >
-              <div className="portal-overlay">
-                <div className="room-info-card">
-                  <span className="room-icon">{rooms[currentRoom].icon}</span>
-                  <h2>{rooms[currentRoom].name}</h2>
-                  <p>{rooms[currentRoom].description}</p>
-                  <button 
-                    className="enter-btn"
-                    style={{ '--btn-color': rooms[currentRoom].color } as React.CSSProperties}
-                  >
-                    View Portfolio
-                  </button>
+            {rooms[currentRoom].splineScene ? (
+              // Render Spline 3D Scene
+              <div key={rooms[currentRoom].id} className="portal-spline">
+                <SplineRoom 
+                  scene={rooms[currentRoom].splineScene!}
+                  onLoad={handleSplineLoad}
+                  className="spline-room"
+                />
+                <div className="portal-overlay">
+                  <div className="room-info-card">
+                    <span className="room-icon">{rooms[currentRoom].icon}</span>
+                    <h2>{rooms[currentRoom].name}</h2>
+                    <p>{rooms[currentRoom].description}</p>
+                    <button 
+                      className="enter-btn"
+                      style={{ '--btn-color': rooms[currentRoom].color } as React.CSSProperties}
+                      onClick={() => triggerSplineState('enter')}
+                    >
+                      View Portfolio
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              // Fallback to image
+              <div 
+                key={rooms[currentRoom].id} // Key forces a re-render for the zoom animation
+                className="portal-image"
+                style={{ backgroundImage: `url(${rooms[currentRoom].image})` }}
+              >
+                <div className="portal-overlay">
+                  <div className="room-info-card">
+                    <span className="room-icon">{rooms[currentRoom].icon}</span>
+                    <h2>{rooms[currentRoom].name}</h2>
+                    <p>{rooms[currentRoom].description}</p>
+                    <button 
+                      className="enter-btn"
+                      style={{ '--btn-color': rooms[currentRoom].color } as React.CSSProperties}
+                    >
+                      View Portfolio
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Right Wall - Secondary Content */}
