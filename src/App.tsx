@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import './App.css'
 import SplineRoom from './components/SplineRoom'
+import { BakingRoom } from './spline'
 import type { Room } from './types/room'
 import { Application } from '@splinetool/runtime'
 
@@ -24,6 +25,24 @@ const sampleLinks: Link[] = [
 ]
 
 const rooms: Room[] = [
+  { 
+    id: 'baking', 
+    name: 'Baking Room', 
+    icon: '🍰', 
+    description: 'Creative Kitchen Space',
+    splineScene: 'https://prod.spline.design/2cGfd5SUnOFRsOZi/scene.splinecode',
+    color: '#f59e0b', // Warm Golden
+    config: {
+      wallpaper: 'kitchen-warm',
+      deskType: 'minimal',
+      items: {
+        slot1: 'laptop',
+        slot2: 'plant',
+        wall: 'poster'
+      },
+      lighting: 'natural'
+    }
+  },
   { 
     id: 'studio', 
     name: 'The Studio', 
@@ -200,11 +219,18 @@ function App() {
             {rooms[currentRoom].splineScene ? (
               // Render Spline 3D Scene
               <div key={rooms[currentRoom].id} className="portal-spline">
-                <SplineRoom 
-                  scene={rooms[currentRoom].splineScene!}
-                  onLoad={handleSplineLoad}
-                  className="spline-room"
-                />
+                {rooms[currentRoom].id === 'baking' ? (
+                  <BakingRoom 
+                    onLoad={handleSplineLoad}
+                    className="spline-room"
+                  />
+                ) : (
+                  <SplineRoom 
+                    scene={rooms[currentRoom].splineScene!}
+                    onLoad={handleSplineLoad}
+                    className="spline-room"
+                  />
+                )}
                 <div className="portal-overlay">
                   <div className="room-info-card">
                     <span className="room-icon">{rooms[currentRoom].icon}</span>
